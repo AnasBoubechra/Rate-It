@@ -1,0 +1,13 @@
+<div class="centered-content">
+    <form method="POST" action="/search">
+        <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+        <input id="q" maxlength="30" minlength="2" name="q" placeholder="Search" required="" type="text" value="">
+        <select id="select" name="select" placeholder="">
+            <option value="" disabled>Filter by</option>
+            <option value="deck_name">Deck Name</option>
+            <option value="title">Title</option>
+            <option value="description">Description</option>
+        </select>
+        <input id="submit" name="submit" type="submit" value="Search">
+    </form>
+</div>

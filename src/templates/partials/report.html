@@ -1,0 +1,20 @@
+{% from 'macros/macros.html' import loading, render_field %}
+<div id="report-form" class="grid-item float pf rel">
+    <div class="top-right m-10 hover-scale close-flash"
+      hx-get="{{ url_for('main.remove') }}"
+      htmx-swapping="#report-form"
+      hx-swap="delete"
+      hx-target="#report-form"
+    >&#x2716;</div>
+    <form method="POST">
+        <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+        <input id="deck_id" name="deck_id" type="hidden" value="{{ deck_id }}">
+        <legend>Report This deck ...</legend>
+        {{ render_field(form.reason) }}
+        {{ render_field(form.description,'Description', placeholder="Please describe more the issue ...") }}
+        <button hx-indicator="#spinner" hx-swap="outerHTML" hx-post="{{ url_for('posts.report', deck_id=deck_id) }}" hx-target="#report-form" class="gbf p-10" id="submit" type="submit" name="submit">
+            Submit
+            {{ loading("spinner") }}
+        </button>
+    </form>
+</div>

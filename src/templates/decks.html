@@ -1,0 +1,37 @@
+{% from 'macros/macros.html' import render_pagination %}
+
+{% set title = "Your decks" %}
+{% set description = "User private decks." %}
+{% set keywords = "decks, personal decks, private decks" %} 
+
+{% extends "layout.html" %}
+{% block h1 %}
+<h1>{{ title }}</h1>
+{% include "search.html" %}
+{% endblock h1 %}
+
+{% block content %}
+{% include "partials/nojs.html" %}
+{% if deck.items %}
+    <div class="flex-end topleft">
+        <a href="{{ url_for('posts.new') }}"><button>New Deck</button></a>
+    </div>
+{% endif %}
+<div id="decks" class="grid-container">
+    {% for deck in deck.items %}
+    {% include "partials/deck_item.html" %}
+    {% endfor %}
+</div>
+{% if deck.items %}
+    {% if deck.total - 1 >= PER_PAGE_DECK %}
+    {{ render_pagination(deck, "posts.decks") }}
+    {%endif%}
+{% else %}
+    <div class="centered-content">
+        <p>No decks created yet.&nbsp;</p>
+        <a href="{{ url_for('posts.new') }}">
+            <button class="gray-button">Create a Deck</button>
+        </a>
+    </div>
+{% endif %}
+{% endblock %}

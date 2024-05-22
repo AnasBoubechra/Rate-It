@@ -1,0 +1,58 @@
+<div class="grid-item float pf" id="deck-{{deck.id}}">
+    <form hx-target="#deck-{{deck.id}}" hx-swap="outerHTML" hx-put="{{ url_for('posts.single_deck', deck_id=deck.id, save=True) }}">
+        {{ form.csrf_token }}
+        <input type="hidden" name="fields" id="fields" value="{{ deck.fields }}">
+        {% if form.fields.errors %}
+            <div class="form-error">
+                {% for error in form.fields.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {{ form.deck_name(value=form.deck_name.data or deck.deck_name) }}
+        {% if form.deck_name.errors %}
+            <div class="form-error">
+                {% for error in form.deck_name.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <textarea id="deck_description"
+                  maxlength="{{ DECK_DESCRIPTION_LEN_MAX }}"
+                  placeholder="Deck description"
+                  name="deck_description">{{ form.deck_description.data or deck.deck_description or '' }}</textarea>
+        {% if form.deck_description.errors %}
+        <div class="form-error">
+            {% for error in form.deck_description.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="block">
+            <select name="category">
+            {% for key,value in CHOICES.items() %}
+            <option value="{{ key }}" {% if key == deck.category %}selected{% endif %}>{{ value }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        {% if form.category.errors %}
+        <div class="form-error">
+            {% for error in form.category.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="block m-8">
+            <input id="checkbox-public" class="toggle-checkbox" value="True" name="public" type="checkbox" id="public" {% if deck.public %}checked{% endif %}>
+            <span class="toggle-label">Public</span>
+        </div>
+        {{ form.submit(value="Save") }}
+        <div class="button gray-button gbf"
+        hx-put="{{ url_for('posts.single_deck', deck_id=deck.id, save=False) }}"
+        hx-swap="outerHTML"
+        hx-target="#deck-{{deck.id}}"
+        >
+        cancel
+        </div>
+    </form>
+</div>

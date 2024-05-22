@@ -1,0 +1,27 @@
+{% if login_failed and htmx %}
+{% include "partials/flash.html" %}
+{% endif %}
+
+{% from 'macros/macros.html' import render_field, loading %}
+<div id="login-form" class="rel centered-content">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <fieldset class="notice">
+            <legend>Log In</legend>
+                {{ render_field(form.email,'Email', placeholder="email@example.org") }}
+                {{ render_field(form.password,'Password', placeholder="password") }}
+                {{ render_field(form.remember, 'Remenber me') }}
+        </fieldset>
+            <button hx-indicator="#spinner" hx-swap="outerHTML" hx-post="{{ url_for('users.login') }}" hx-target="#login-form" class="gbf p-10" id="submit" type="submit" name="submit">
+                Login
+                {{ loading("spinner") }}
+            </button>
+        <small>
+            Need An Account? <a href="{{ url_for('users.signup') }}">Sign Up Now</a>
+        </small>
+        <br>
+        <small>
+            <a href="{{url_for('users.reset_password')}}">Forgot Password?</a>
+        </small>
+    </form>
+</div>

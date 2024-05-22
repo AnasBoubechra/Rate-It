@@ -1,0 +1,95 @@
+{% from 'macros/macros.html' import render_pagination %}
+{% extends "layout.html" %}
+
+{% set title = deck.deck_name %}
+{% set description = deck.deck_description %}
+{% set keywords = deck.category %} 
+
+{% block h1 %}
+<h1>{{ deck.deck_name }}</h1>
+{% if deck.deck_description %}
+<p>{{ deck.deck_description }}</p>
+{% endif %}
+{% endblock h1 %}
+
+{% block content %}
+
+{% if current_user.is_authenticated %}
+{% include "partials/nojs.html" %}
+{% endif %}
+
+<div class="tbadge">
+    {% if deck.public == True %}
+    <div class="is-small">
+        Created by
+        <div class="username">
+          <img loading="lazy" crossorigin="anonymous" src="{{ deck.user.gravatar(size=25) }}" alt="{{deck.user.username}} Pic">
+            {{ deck.user.username }}
+        </div>
+        <div class="date">
+            {{ deck.creation_date | _pretty_date }}
+        </div>
+        | Public
+    </div>
+    {% else %}
+    <div class="is-small">
+        Created
+        <div class="date">
+            {{ deck.creation_date | _pretty_date }}
+        </div>
+        | Private
+    </div>
+    {% endif %}
+    <div class="is-left">
+        <a href="{{ url_for('posts.add', deck_id=deck.id, deck_name=deck.formatted_deck_name()) }}"
+            hx-boost="true"
+            hx-target="#form"
+        >
+        <svg class="circle no-border" height="45px" width="45px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 12H18M12 6V18" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        </a>
+        <a
+            hx-get="{{url_for('posts.table', deck_id=deck.id, deck_name=deck.formatted_deck_name(), s="table-options")}}"
+            hx-target="this"
+            hx-swap="afterend"
+        >
+        <svg class="circle no-border" height="45px" width="45px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 12a2 2 0 1 0 4 0 2 2 0 0 0-4 0zm0-6a2 2 0 1 0 4 0 2 2 0 0 0-4 0zm0 12a2 2 0 1 0 4 0 2 2 0 0 0-4 0z" fill="var(--accent)"/>
+        </svg>
+        </a>
+    </div>
+ </div>
+
+<div id="form"></div>
+
+{% include "partials/table.html" %}
+
+{% if unique_field_values | length >= 2 %}
+<div id="button-container">
+    <div id="toc-floating-container">
+        <input class="toggle" id="toc-toggle" type="checkbox">
+        <label class="overlay" for="toc-toggle"></label>
+        <label title="Toggle Table of Contents" for="toc-toggle" id="toc-button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="circle" fill="var(--accent)" viewBox="0 0 48 48"><path d="M8 21c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zM8 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 24.33c-1.47 0-2.67 1.19-2.67 2.67s1.2 2.67 2.67 2.67 2.67-1.19 2.67-2.67-1.2-2.67-2.67-2.67zM14 38h28v-4H14v4zm0-12h28v-4H14v4zm0-16v4h28v-4H14z"/></svg>
+        </label>
+        <div class="toc-content">
+            <div class="toc-container">
+            {% for field in unique_field_values %}
+                <ul>
+                    <li>
+                        <a href="#{{ field.lower() }}">{{ field }}</a>
+                    </li>
+                </ul>
+            {% endfor %}
+            </div>
+        </div>
+        <a title="Go to the top of the page" href="#" id="top-button">
+            <svg class="circle" viewBox="0 0 20 20" fill="var(--accent)">
+                <path d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"></path>
+            </svg>
+        </a>
+</div>
+{% endif %}
+
+{% endblock content %}

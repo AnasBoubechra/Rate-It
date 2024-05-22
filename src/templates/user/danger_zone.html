@@ -1,0 +1,20 @@
+<div class="tab-list" role="tablist">
+    <button hx-get="{{ url_for('users.account', s='profile') }}" class="tab" aria-selected="false" autofocus="false" role="tab" aria-controls="tab-content">Profile</button>
+    <button hx-get="{{ url_for('users.account', s='settings') }}" role="tab" aria-selected="false" aria-controls="tab-content">Settings</button>
+    <button hx-get="{{ url_for('users.account', s='danger_zone') }}" class="selected" aria-selected="true" autofocus="true" role="tab" role="tab" aria-controls="tab-content">Danger zone</button>
+</div>
+
+<h3>Danger zone:</h3>
+<div class="is-small m-8 date">
+	Proceed with caution ! All your decks and posts will be <u>permantly</u> deleted.
+</div>
+<div class="centered-content m-8">
+	<div class="block">
+		<div class="box error p-10 m-8" hx-delete="{{url_for('users.delete_decks')}}" hx-vals='{"csrf_token": "{{csrf_token()}}"}' hx-confirm="You are sure you want to permantely delete your decks?">
+			Delete all decks
+		</div>
+		<div class="box error p-10 m-8" hx-delete="{{url_for('users.delete_account')}}" hx-vals='{"csrf_token": "{{csrf_token()}}"}' hx-confirm="Are you sure you want to permantely delete your account? All decks and posts will be lost.">
+			Delete account
+		</div>
+	</div>
+</div>

@@ -1,0 +1,105 @@
+{% macro render_field(field, label='', placeholder='') %}
+    {% if label %}
+    {{ field.label }}
+    {% endif %}
+    {% if placeholder %}
+    {{ field(placeholder=placeholder) }}
+    {%else%}
+    {{ field() }}
+    {%endif %}
+    {% if field.errors -%}
+        <div class="form-error">
+            {% for error in field.errors -%}
+                <span>{{ error | safe }}</span>
+            {%- endfor %}
+        </div>
+    {%- endif %}
+{% endmacro %}
+
+{% macro render_pagination(field, url, args={}) %}
+<br>
+  {% for page_num in field.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+          {% set url_args = {'page': page_num} %}
+          {% if args %}
+            {% set _ = url_args.update(args) %}
+          {% endif %}
+          {% if field.page == page_num %}
+          <a class="button" href="{{ url_for(url, **url_args) }}">{{ page_num }}</a>
+          {% else %}
+          <a href="{{ url_for(url, **url_args) }}"><button class="gray-button">{{ page_num }}</button></a>
+          {% endif %}
+    {% else %}
+    <span>..</span>
+    {% endif %}
+  {% endfor %}
+{% endmacro %}
+
+
+{% macro render_decks(decks, dtl) %}
+<div class="grid-container">
+{% for deck in decks.items %}
+  <div class="grid-item {{deck.category | lower}}">
+  <a class="no-style" href="{{ url_for('posts.table',deck_id=deck.id, deck_name=deck.formatted_deck_name()) }}">
+    <h3>{{ deck.truncate_deck_name() }}</h3>
+    <button class="button gray-button">{{ deck.category }}</button>
+    <small><p class="badge">{{ deck.creation_date | format_date }}</p></small>
+  </a>
+  </div>
+{% endfor %}
+</div>
+{% endmacro %}
+
+{% macro star(class_) %}
+<svg xmlns="http://www.w3.org/2000/svg" class="{{ class_ }}" viewBox="0 0 24 24" stroke="currentColor">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+</svg>
+{% endmacro %}
+
+{% macro pencil(class_) %}
+<svg xmlns="http://www.w3.org/2000/svg" class="{{ class_ }}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+</svg>
+{% endmacro %}
+
+{% macro moon(class_) %}
+<svg xmlns="http://www.w3.org/2000/svg" class="{{ class_ }}" width="24px" height="24px" fill="none" viewBox="0 0 24 24" stroke="var(--accent)">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+</svg>
+{% endmacro %}
+
+{% macro sun(class_) %}
+<svg xmlns="http://www.w3.org/2000/svg" class="{{ class_ }}" width="24px" height="24px" fill="none" viewBox="0 0 24 24" stroke="var(--accent)">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+</svg>
+{% endmacro %}
+{% macro loading(class_) %}
+<svg id="spinner" class="{{ class_ }}" width="25px" height="25px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <g fill="var(--bg)" fill-rule="evenodd" clip-rule="evenodd">
+    <path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8z" opacity=".2"/>
+    <path d="M7.25.75A.75.75 0 018 0a8 8 0 018 8 .75.75 0 01-1.5 0A6.5 6.5 0 008 1.5a.75.75 0 01-.75-.75z"/>
+    </g>
+</svg>
+{% endmacro %}
+
+{% macro download() %}
+<svg class="m-8" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12.5535 16.5061C12.4114 16.6615 12.2106 16.75 12 16.75C11.7894 16.75 11.5886 16.6615 11.4465 16.5061L7.44648 12.1311C7.16698 11.8254 7.18822 11.351 7.49392 11.0715C7.79963 10.792 8.27402 10.8132 8.55352 11.1189L11.25 14.0682V3C11.25 2.58579 11.5858 2.25 12 2.25C12.4142 2.25 12.75 2.58579 12.75 3V14.0682L15.4465 11.1189C15.726 10.8132 16.2004 10.792 16.5061 11.0715C16.8118 11.351 16.833 11.8254 16.5535 12.1311L12.5535 16.5061Z" fill="var(--accent)"/>
+  <path d="M3.75 15C3.75 14.5858 3.41422 14.25 3 14.25C2.58579 14.25 2.25 14.5858 2.25 15V15.0549C2.24998 16.4225 2.24996 17.5248 2.36652 18.3918C2.48754 19.2919 2.74643 20.0497 3.34835 20.6516C3.95027 21.2536 4.70814 21.5125 5.60825 21.6335C6.47522 21.75 7.57754 21.75 8.94513 21.75H15.0549C16.4225 21.75 17.5248 21.75 18.3918 21.6335C19.2919 21.5125 20.0497 21.2536 20.6517 20.6516C21.2536 20.0497 21.5125 19.2919 21.6335 18.3918C21.75 17.5248 21.75 16.4225 21.75 15.0549V15C21.75 14.5858 21.4142 14.25 21 14.25C20.5858 14.25 20.25 14.5858 20.25 15C20.25 16.4354 20.2484 17.4365 20.1469 18.1919C20.0482 18.9257 19.8678 19.3142 19.591 19.591C19.3142 19.8678 18.9257 20.0482 18.1919 20.1469C17.4365 20.2484 16.4354 20.25 15 20.25H9C7.56459 20.25 6.56347 20.2484 5.80812 20.1469C5.07435 20.0482 4.68577 19.8678 4.40901 19.591C4.13225 19.3142 3.9518 18.9257 3.85315 18.1919C3.75159 17.4365 3.75 16.4354 3.75 15Z" fill="var(--accent)"/>
+</svg>
+{% endmacro %}
+
+{% macro bookmark(class_) %}
+<svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5 6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.07989 3 8.2 3H15.8C16.9201 3 17.4802 3 17.908 3.21799C18.2843 3.40973 18.5903 3.71569 18.782 4.09202C19 4.51984 19 5.07989 19 6.2V21L12 16L5 21V6.2Z" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>
+{% endmacro %}
+
+{% macro share(class_) %}
+<svg class="{{class_}}" width="24px" height="24px" viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M13.47 4.13998C12.74 4.35998 12.28 5.96 12.09 7.91C6.77997 7.91 2 13.4802 2 20.0802C4.19 14.0802 8.99995 12.45 12.14 12.45C12.34 14.21 12.79 15.6202 13.47 15.8202C15.57 16.4302 22 12.4401 22 9.98006C22 7.52006 15.57 3.52998 13.47 4.13998Z" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+{% endmacro %}
+{% macro report(class_) %}
+<svg class="{{class_}}" fill="var(--accent)" width="25px" height="25px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.25 4a.25.25 0 00-.25.25v12.5c0 .138.112.25.25.25h2.5a.75.75 0 01.75.75v3.19l3.427-3.427A1.75 1.75 0 0111.164 17h9.586a.25.25 0 00.25-.25V4.25a.25.25 0 00-.25-.25H3.25zm-1.75.25c0-.966.784-1.75 1.75-1.75h17.5c.966 0 1.75.784 1.75 1.75v12.5a1.75 1.75 0 01-1.75 1.75h-9.586a.25.25 0 00-.177.073l-3.5 3.5A1.457 1.457 0 015 21.043V18.5H3.25a1.75 1.75 0 01-1.75-1.75V4.25zM12 6a.75.75 0 01.75.75v4a.75.75 0 01-1.5 0v-4A.75.75 0 0112 6zm0 9a1 1 0 100-2 1 1 0 000 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+{% endmacro %}

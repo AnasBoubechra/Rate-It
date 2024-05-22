@@ -1,0 +1,40 @@
+{% set url = request.scheme ~ '://' ~ request.host ~ url_for('posts.table', deck_id=deck.id, deck_name=deck.formatted_deck_name()) %}
+{% set title = deck.deck_name %}
+{% set description = deck.deck_description %}
+{% set keywords = deck.category %} 
+<div class="grid-item float pf rel" id="share">
+  <div class="top-right m-10 hover-scale close-flash"
+    hx-get="{{ url_for('main.remove') }}"
+    htmx-swapping="#share"
+    hx-swap="delete"
+    hx-target="#share"
+  >&#x2716;</div>
+<div>
+    <div class="share-buttons">
+        <a target="_blank" rel="noopener noreferrer" aria-label="share {{ title }} on twitter"
+            href="https://twitter.com/intent/tweet/?text={{ title }}&amp;url={{ url }}&amp;hashtags={{ keywords }}">
+             <img src="{{ url_for('static', filename='img/twitter.svg') }}" alt="Twitter Logo" loading="lazy">
+        </a>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share {{ title }} on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ url }}&amp;title={{ title }}&amp;summary={{ description }}&amp;source={{ url }}">
+            <img src="{{ url_for('static', filename='img/linkedin.svg') }}" alt="Linkedin Logo" loading="lazy">
+        </a>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share {{ title }} on reddit"
+            href="https://reddit.com/submit?url={{ url }}&title={{ title }}">
+            <img src="{{ url_for('static', filename='img/reddit.svg') }}" alt="Reddit Logo" loading="lazy">
+        </a>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share {{ title }} on facebook"
+            href="https://facebook.com/sharer/sharer.php?u={{ url }}">
+            <img src="{{ url_for('static', filename='img/facebook.svg') }}" alt="Facebook Logo" loading="lazy">
+        </a>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share {{ url }} on whatsapp"
+            href="https://api.whatsapp.com/send?text={{ title }}%20-%20{{ url }}">
+            <img src="{{ url_for('static', filename='img/whatsapp.svg') }}" alt="Whatsapp Logo" loading="lazy">
+        </a>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share {{ title }} on telegram"
+            href="https://telegram.me/share/url?text={{ title }}&amp;url={{ url }}">
+            <img src="{{ url_for('static', filename='img/telegram.svg') }}" alt="Telegram Logo" loading="lazy">
+        </a>
+    </div>
+    <input class="m-8" type="input" value="{{ url }}">
+</div>

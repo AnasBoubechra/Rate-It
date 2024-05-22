@@ -1,0 +1,11 @@
+{% from 'macros/macros.html' import render_field %}
+{% extends "layout.html" %}
+{% set title = "SignUp" %}
+{% set description = "Sign up now to unlock exclusive features and personalized experiences." %}
+{% set keywords = "signup, join, register" %} 
+{% block h1 %}
+<h1>Sign Up</h1>
+{% endblock h1 %}
+{% block content %}
+{% include "partials/user/signup.html" %}
+{% endblock content %}

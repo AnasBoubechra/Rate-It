@@ -1,0 +1,22 @@
+{% from 'macros/macros.html' import render_pagination, render_decks, render_field %}
+
+{% set title = "Search" %}
+{% set description = "Search all the public decks. Filter by name, description or title." %}
+{% set keywords = "search" %}
+
+{% extends "layout.html" %}
+
+{% block h1 %}
+<h1>Search</h1>
+{% include "search.html" %}
+{% endblock %}
+
+{% block content %}
+
+{{ render_decks(results, DECK_TITLE_LENGTH) }}
+
+{% if results.total is defined and results.total - 1 >= PER_PAGE_DECK %}
+{{ render_pagination(results, 'main.search', args={'select':select, 'q':q}) }}
+{% endif %}
+
+{% endblock %}

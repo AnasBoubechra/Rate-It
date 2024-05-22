@@ -1,0 +1,22 @@
+{% set title = "Account" %}
+{% set description = "Change the user settings, gravar and other security settings." %}
+{% set keywords = "account, settings, delete account, remove decks" %} 
+
+{% extends "layout.html" %}
+
+{% block h1 %}
+<h1>Account</h1>
+{% endblock h1 %}
+
+{% block content %}
+
+{% include "partials/nojs.html" %}
+
+<div id="tabs" hx-target="this" hx-swap="innerHTML" class="">
+  <div id="tab-content" role="tabpanel" class="tab-content">
+    <div id="tabs" hx-get="{{ url_for('users.account', s='profile') }}" hx-trigger="load delay:100ms" hx-target="#tabs" hx-swap="innerHTML"></div>
+   </div>
+</div>
+
+
+{% endblock content %}

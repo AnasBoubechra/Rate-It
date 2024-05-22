@@ -1,0 +1,16 @@
+{% set email_title = "Confirm your new email" %}
+{% set url_name = "Confirm email" %}
+{% set company_name = "Rate it" %}
+{% set current_year = "2023" %}
+
+{% extends "email_templates/html/base.html" %}
+
+{% block body %}
+<p>Hello {{ name }},</p>
+<p>We recieved a request to change your email address for your {{ project }} account,</p>
+<p>To activate your email, click on the link below (or copy and paste the URL into your browser):</p>
+{% endblock %}
+{% block more %}
+<p>You think this email was sent to you by mistake ? Then please just ignore it.</p>
+<p>No changes will be made.</p>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% set title = "Login" %}
+{% set description = "Secure login. Access your account now." %}
+{% set keywords = "login, sign in, access account" %} 
+
+{% block h1 %}
+<h1>Login</h1>
+{% endblock h1 %}
+
+{% block content %}
+{% include "partials/user/login.html" %}
+{% endblock content %}

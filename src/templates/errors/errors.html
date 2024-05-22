@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% set title = error.name %}
+{% set description = error.description %}
+{% set keywords = error.code %} 
+
+{% block h1 %}
+<h1>{{error.name}} ({{error.code}})</h1>
+{% endblock h1 %}
+{% block content %}
+{{ error.description | safe }}
+{% endblock content %}

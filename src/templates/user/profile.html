@@ -1,0 +1,47 @@
+<div class="tab-list" role="tablist">
+		<button hx-get="{{ url_for('users.account', s='profile') }}" class="selected" aria-selected="true" role="tab" aria-controls="tab-content">Profile</button>
+		<button hx-get="{{ url_for('users.account', s='settings') }}" role="tab" aria-selected="false" aria-controls="tab-content">Settings</button>
+		<button hx-get="{{ url_for('users.account', s='danger_zone') }}" role="tab" aria-selected="false" aria-controls="tab-content">Danger zone</button>
+</div>
+<div class="box user-profile p-10 m-8">
+  <div class="photo m-8">
+	<img crossorigin="anonymous" loading="lazy" height="80" width="80" src="{{ current_user.gravatar(size=80) }}" alt="{{current_user.username}} Profile photo">
+  </div>
+  <div class="details">
+	  <div class="name">Username:&nbsp;{{current_user.username}}</div>
+	  <div class="email">Email:&nbsp;{{current_user.email}}</div>
+	  <div class="date is-small m-8">
+		  Memenber since:
+		  <svg fill="var(--text-light)" aria-hidden="true" width="18" height="18" viewBox="0 0 18 18"><path d="M9 4.5a1.5 1.5 0 0 0 1.28-2.27L9 0 7.72 2.23c-.14.22-.22.48-.22.77 0 .83.68 1.5 1.5 1.5Zm3.45 7.5-.8-.81-.81.8c-.98.98-2.69.98-3.67 0l-.8-.8-.82.8c-.49.49-1.14.76-1.83.76-.55 0-1.3-.17-1.72-.46V15c0 1.1.9 2 2 2h10a2 2 0 0 0 2-2v-2.7c-.42.28-1.17.45-1.72.45-.69 0-1.34-.27-1.83-.76Zm1.3-5H10V5H8v2H4.25C3 7 2 8 2 9.25v.9c0 .81.91 1.47 1.72 1.47.39 0 .77-.14 1.03-.42l1.61-1.6 1.6 1.6a1.5 1.5 0 0 0 2.08 0l1.6-1.6 1.6 1.6c.28.28.64.43 1.03.43.81 0 1.73-.67 1.73-1.48v-.9C16 8.01 15 7 13.75 7Z"></path></svg>
+		  {{ current_user.created_time | format_date }}
+	  </div>
+  </div>
+</div>
+
+<div>
+</div>
+<div class="tbadge box p-10 m-8">
+	<div class="block count p-10 m-8">
+			<strong>Public decks
+			<svg fill="var(--text-light)" width="23" height="23" viewBox="0 0 512 512" enable-background="new 0 0 512 512">
+			  <g>
+			  <path d="m437.02 74.98c-48.353-48.352-112.64-74.98-181.02-74.98s-132.667 26.628-181.02 74.98-74.98 112.64-74.98 181.02 26.628 132.667 74.98 181.02 112.64 74.98 181.02 74.98 132.667-26.628 181.02-74.98 74.98-112.64 74.98-181.02-26.628-132.667-74.98-181.02zm-2.132 315.679c-15.31-10.361-31.336-19.314-47.952-26.789 7.339-28.617 11.697-59.688 12.784-91.87h79.702c-3.144 44.336-19.244 85.147-44.534 118.659zm-402.31-118.659h79.702c1.088 32.183 5.446 63.254 12.784 91.87-16.616 7.475-32.642 16.427-47.952 26.789-25.29-33.512-41.39-74.323-44.534-118.659zm44.53-150.654c15.31 10.362 31.336 19.315 47.954 26.79-7.338 28.615-11.695 59.683-12.783 91.864h-79.701c3.144-44.334 19.243-85.142 44.53-118.654zm283.519-42.581c-5.863-10.992-12.198-20.911-18.935-29.713 27.069 11.25 51.473 27.658 71.977 47.997-11.625 7.638-23.702 14.369-36.155 20.185-4.886-13.664-10.528-26.547-16.887-38.469zm-12.965 50.404c-29.211 9.792-60.039 14.831-91.662 14.831s-62.451-5.039-91.662-14.831c20.463-58.253 54.273-97.169 91.662-97.169s71.199 38.916 91.662 97.169zm-203.359 110.831c1.056-28.342 4.885-55.421 10.937-80.116 32.136 10.644 66.018 16.116 100.76 16.116s68.624-5.472 100.76-16.116c6.053 24.695 9.881 51.773 10.937 80.116zm223.394 32c-1.057 28.344-4.885 55.424-10.938 80.12-32.139-10.646-66.02-16.12-100.759-16.12s-68.62 5.474-100.759 16.12c-6.053-24.696-9.882-51.776-10.938-80.12zm-216.324-193.235c-6.358 11.922-12 24.805-16.887 38.468-12.452-5.815-24.53-12.547-36.155-20.185 20.503-20.34 44.907-36.747 71.977-47.997-6.737 8.803-13.073 18.722-18.935 29.714zm-16.886 316.008c4.886 13.661 10.528 26.542 16.885 38.462 5.863 10.992 12.198 20.911 18.935 29.713-27.067-11.25-51.469-27.655-71.971-47.992 11.625-7.637 23.701-14.368 36.151-20.183zm29.853-11.938c29.213-9.794 60.04-14.835 91.66-14.835s62.447 5.041 91.66 14.835c-20.463 58.251-54.272 97.165-91.66 97.165s-71.197-38.914-91.66-97.165zm196.287 50.4c6.357-11.92 11.999-24.801 16.885-38.462 12.451 5.815 24.527 12.547 36.151 20.183-20.502 20.337-44.904 36.743-71.971 47.992 6.737-8.802 13.073-18.721 18.935-29.713zm39.093-193.235c-1.088-32.18-5.445-63.249-12.783-91.864 16.618-7.475 32.645-16.428 47.954-26.79 25.287 33.511 41.386 74.319 44.53 118.654z"/>
+			  </g>
+			</svg> :
+			</strong>
+			<span>{{ current_user.decks|selectattr('public')|list|length }}</span>
+	</div>
+	<div class="block count p-10 m-8">
+			<strong>Private decks 
+				<svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<rect x="5.73685" y="12.0526" width="12.5263" height="8.94737" rx="2" stroke="var(--text-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M7.52631 12.0526V8.47368C7.52631 6.00294 9.52924 4 12 4C14.4707 4 16.4737 6.00294 16.4737 8.47368V12.0526" stroke="var(--text-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>:
+			</strong>
+			<span>{{ current_user.decks|rejectattr('public')|list|length }}</span>
+	</div>
+	<div class="block count p-10 m-8">
+			<strong>Total deck likes:</strong>
+			<span class="count">{{ likes }}</span>
+	</div>
+</div>

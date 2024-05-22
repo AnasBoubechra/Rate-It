@@ -1,0 +1,10 @@
+{{ email_title }}
+{% block body %}{% endblock %}
+{% if url %}
+{{ url_name }}: {{ url }}
+{% endif %}
+{% block more %}{% endblock %}
+
+---
+
+{{ company_name }} &copy; {{ current_year }}

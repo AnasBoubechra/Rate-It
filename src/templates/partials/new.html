@@ -1,0 +1,41 @@
+{% from './macros/macros.html' import render_field %}
+<div id="new_form" class="rel centered-content">
+    <form method="POST" action="{{ url_for('posts.new') }}">
+      <fieldset class="notice">
+    {{ form.csrf_token }}
+    {{ render_field(form.deck_name,'Deck name', placeholder="deck name") }}
+    {{ render_field(form.category,'Category') }}
+    <textarea 
+      hx-trigger="keyup changed delay:600ms"
+      hx-put="{{ url_for('posts.rbtn') }}"
+      hx-target="#tags"
+      id="fields" 
+      name="fields"
+      maxlength="{{DECK_FIELDS_LEN_MAX}}" 
+      placeholder="Space separated words!"
+      required>{% if form.fields.data and not form.fields.errors -%}{{ form.fields.data }}{% endif %}</textarea>
+    <div id="tags"></div>
+    {% if form.fields.errors %}
+        <div class="form-error">
+            {% for error in form.fields.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="block m-10">
+      {{ form.public }}
+      <span class="block is-small date">Do you want the deck to be private or public ?</span>
+    </div>
+    <br>
+    {{ form.submit(placeholder="Create deck") }}
+  {% if htmx %}
+  <button class="gray-button gbf"
+    hx-get="{{ url_for('main.remove') }}"
+    hx-target="#new_form"
+    hx-swap="delete"
+    >Cancel
+  </button>
+  {% endif %}
+  </fieldset>
+</form>
+</div>

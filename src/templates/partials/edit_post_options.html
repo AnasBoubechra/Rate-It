@@ -1,0 +1,20 @@
+<div hx-ext="remove-me" remove-me="" class="pr">
+    <div class="dropdown-content t-options pa">
+        <div class="dropdown-item" 
+            hx-target="#row-{{post.id}}"
+            hx-get="{{ url_for('posts.edit_post',deck_id=deck.id, post_id=post.id) }}"
+            >
+            <div class="edit"></div>
+            Edit
+        </div>
+        <div class="dropdown-item"
+             hx-delete="{{ url_for('posts.edit_post',deck_id=deck.id, post_id=post.id) }}"
+             hx-target="#row-{{post.id}}"
+             hx-vals='{"csrf_token": "{{csrf_token()}}"}'
+             hx-swap="outerHTML swap:0.4s"
+        >
+        <div class="remove"></div>
+        Remove
+        </div>
+    </div>
+</div>

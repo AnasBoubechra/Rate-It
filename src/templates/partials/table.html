@@ -1,0 +1,35 @@
+{% if posts.items %}
+  {% for field in unique_field_values %}
+  {% set field_posts = posts.items | selectattr("field", "equalto", field) | list %}
+  {% if field_posts|length > 0 %}
+    <table id="{{ field | lower }}" class="table-data">
+      <tr>
+        <th>{{ field }}</th>
+        <th>Description</th>
+      </tr>
+      {% for post in field_posts %}
+      <tr id="row-{{ post.id }}">
+      {% include "partials/post_item.html" %}
+      </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+{% endfor %}
+
+{% if posts.total - 1 >= PER_PAGE_POST %}
+{{ render_pagination(posts, 'posts.table', args={'deck_id':deck.id, 'deck_name': deck.formatted_deck_name()}) }}
+{%endif%}
+
+{% if deck.public %}
+<div class="flex-end p-10">
+    {% include "partials/like.html" %}
+    <div class="buttom-right is-small count">
+        Last modified&nbsp;<span class="date">{{ deck.last_modified | _pretty_date }}</span>
+    </div>
+</div>
+{% endif %}
+
+{% else %}
+<h4>No tables added yet!</h4>
+<h5>Please click on the '+' button to add a new table!</h5>
+{% endif %}

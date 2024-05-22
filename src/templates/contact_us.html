@@ -1,0 +1,18 @@
+{% from 'macros/macros.html' import render_field %}
+{% set title = "Contact Us" %}
+{% set description = "This is your direct line to connect with us, and we're excited to hear from you. Whether you have a question, feedback, or simply want to say hello, this is the place to do it. Our team is eagerly waiting to assist you and provide the support you need." %}
+{% set keywords = "contact, support, help" %} 
+
+{% extends "layout.html" %}
+
+{% block h1 %}
+<h1>{{ title }}</h1>
+<p>This is your direct line to connect with us, and we're excited to hear from you. Whether you have a question, feedback, or simply want to say hello, this is the place to do it.</p>
+{% endblock h1 %}
+{% block content %}
+{% include "partials/contact_us.html" %}
+{% endblock content %}
+
+{% block scripts %}
+<script nonce="random-csp-nonce" src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{% endblock scripts %}

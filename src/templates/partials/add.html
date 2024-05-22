@@ -1,0 +1,41 @@
+{% from './macros/macros.html' import render_field, loading %}
+<div id="add_form" class="rel centered-content">
+  <form method="POST" action="{{url_for('posts.add', deck_id=deck.id)}}">
+    <fieldset class="notice">
+    {{ form.csrf_token }}
+    {{ render_field(form.title,'Title', placeholder="title") }}
+    {{ render_field(form.description,'Description', placeholder="Some descriptive description :)") }}
+    <input 
+      id="url" maxlength="500" name="url" placeholder="https://example.org" required="" type="text"
+      hx-trigger="keyup changed delay:600ms"
+      hx-indicator="#spinner"
+      hx-target="#url-status"
+      hx-post="{{ url_for('posts.check_url') }}"
+    >
+    <div class="centered-content">
+    <div id="url-status"></div>
+    {{ loading('spinner') }}
+    </div>
+    {{ render_field(form.field,'Category', placeholder="Space separated") }}
+    {% if current_user.is_anonymous %}
+    <div loading="lazy" class="cf-turnstile" data-appearance="execute" data-theme="{{session.get('theme')}}" data-sitekey="{{site_key}}"></div>
+    {% endif %}
+    <div class="block">
+      {{ form.submit() }}
+      {% if htmx %}
+      <button class="gray-button gbf"
+        hx-get="{{ url_for('main.remove') }}"
+        hx-swap="delete"
+        hx-target="#add_form"
+        >Cancel
+      </button>
+      {% endif %}
+    </div>
+    </fieldset>
+   </form>
+</div>
+{% if current_user.is_anonymous %}
+{% block scripts %}
+<script nonce="{{ request.csp_nonce }}" src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{% endblock scripts %}
+{% endif %}

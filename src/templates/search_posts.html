@@ -1,0 +1,40 @@
+{% from 'macros/macros.html' import render_field, render_pagination %}
+{% set title = "Search" %}
+{% set description = "Search all the public decks. Filter by name, description or title." %}
+{% set keywords = "search" %} 
+{% extends "layout.html" %}
+{% block h1 %}
+<h1>Search</h1>
+{% include "search.html" %}
+{% endblock %}
+{% block content %}
+<div class="centered-content">
+{% if results.items %}
+    <table>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Deck Name</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in results %}
+                <tr>
+                    <td>{{ post.deck.category }}</td>
+                    <td>{{ post.deck.deck_name }}</td>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.description }}</td>
+                    <td><a href="{{url_for('posts.table', deck_id=post.deck.id, deck_name=post.deck.formatted_deck_name())}}#row-id-{{ post.id }}">Link</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+</div>
+{% if results and results.total is defined and results.total - 1 >= per_page %}
+{{ render_pagination(results, 'main.search', args={'select':select, 'q':q}) }}
+{% endif %}
+{% endblock %}

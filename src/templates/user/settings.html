@@ -1,0 +1,28 @@
+{% from "macros/_form.html" import render_form %}
+<div class="tab-list" role="tablist">
+  <button hx-get="{{ url_for('users.account', s='profile') }}" aria-selected="false" autofocus="false" role="tab" aria-controls="tab-content">Profile</button>
+  <button hx-get="{{ url_for('users.account', s='settings') }}" class="selected" aria-selected="true" autofocus="true" role="tab" aria-selected="false" aria-controls="tab-content">Settings</button>
+  <button hx-get="{{ url_for('users.account', s='danger_zone') }}" role="tab" aria-selected="false" aria-controls="tab-content">Danger zone</button>
+</div>
+<h3>Gravatar</h3>
+<div class="block">
+  <label class="toggle">
+          <input hx-put="{{ url_for('users.user_gravatar') }}" hx-target="#htmx-flashed" class="toggle-checkbox" hx-vals='{"csrf_token": "{{csrf_token()}}"}' value="True" name="reh" type="checkbox" id="reh" {% if current_user.real_email_hash %}checked{% endif %}>
+          <div class="toggle-switch"></div>
+          <span class="toggle-label">Use email for the avatar</span>
+   </label>
+  <div class="is-small m-8 date">
+    Your email is not used for the avatar by default but rather a random hash.
+  </div>
+  <div>
+    <details>
+      <summary class="is-small">What is the avatar?</summary>
+      <p>The avatar is a small profile picture associated with your account. If you have an account on gravatar.com and have enabled the option, it will display your profile picture from there.</p>
+      <p>Please note that by default, the option to display the Gravatar profile picture is disabled.</p>
+    </details>
+  </div>
+</div>
+<h3>Account</h3>
+<div hx-get="{{ url_for('users.update_settings') }}" hx-trigger="load delay:100ms" hx-target="this" hx-swap="innerHTML"></div>
+<h3>Security</h3>
+<div hx-get="{{ url_for('users.user_change_password') }}" hx-trigger="load delay:200ms" hx-target="this" hx-swap="innerHTML"></div>

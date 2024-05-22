@@ -1,0 +1,18 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+ {% for category, message in messages %}
+  <div hx-ext="remove-me" remove-me="3s" id="_flash">
+    <div class="box pr {{ category }}">
+    <div class="top-right m-10 hover-scale close-flash"
+      hx-get="{{ url_for('main.remove') }}"
+      htmx-swapping="#_flash"
+      hx-swap="delete"
+      hx-target="#_flash"
+    >&#x2716;</div>
+      {{ message | safe }}
+    </div>
+    <br>
+  </div>
+ {% endfor %}
+{% endif %}
+{% endwith %}

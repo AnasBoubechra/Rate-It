@@ -1,0 +1,7 @@
+<div hx-target="this" hx-swap="outerHTML">
+    <div><span>Username</span>: <kbd>{{ user.username }}</kbd></div>
+    <div><span>Email</span>: {{ user.email }}</div>
+    <button hx-get="/account" class="btn btn-primary">
+    Edit
+    </button>
+</div>

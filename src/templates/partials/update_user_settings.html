@@ -1,0 +1,26 @@
+<div class="rel" id="form">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <label for="username">Change Username:</label>
+            <input type="text" id="username" name="username" value="{{current_user.username}}" required>
+            {% if form.username.errors %}
+                <div class="form-error">
+                    {% for error in form.username.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" value="{{current_user.email}}" required>
+            {% if form.email.errors %}
+                <div class="form-error">
+                    {% for error in form.email.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <button hx-post="{{ url_for('users.update_settings') }}" class="gbf p-10" type="submit" name="submit">
+                Save
+            </button>
+        </form>
+</div>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ email_title }}</title>
+  <style>
+    /* Style for the email body */
+    .email-body {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #333333;
+    }
+    
+    /* Style for the email title */
+    .email-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .email-title h1:nth-of-type(2) {
+      color: #007bff;
+    }
+    .url-name {
+      color: #ffffff;
+    }
+    
+    /* Style for the blue button */
+    .blue-button {
+      display: inline-block;
+      background-color: #007bff;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+    }
+    .more {
+      font-size: 12px;
+      color: #444;
+      margin-top: 10px;
+    }
+    /* Style for the email footer */
+    .email-footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #999999;
+    }
+    .email-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .m-2 {
+      background-color: #f7f7f7;
+      border-radius: 5px;
+      padding: 20px;
+    }
+    .m-1 {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body class="email-body">
+ <div class="email-container">
+   <div class="m-1">
+    <h1 class="email-title">{{ email_title }}</h1>
+    
+    {% block body %}{% endblock body %}
+    
+    {% if url %}
+      <p>
+        <a href="{{ url }}" class="blue-button"><span class="url-name">{{ url_name }}</span></a>
+      </p>
+    {% endif %}
+  </div>
+  <div class="m-2">
+    <div class="more">
+    {% block more %}{% endblock more %}
+    </div>
+    <div class="email-footer">
+      <p>{{ company_name }} &copy; {{ current_year }}</p>
+    </div>
+  </div>
+ </div>
+</body>
+</html>

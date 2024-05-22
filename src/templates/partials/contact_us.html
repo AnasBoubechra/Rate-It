@@ -1,0 +1,21 @@
+{% if htmx %}
+{% include 'partials/flash.html' %}
+{% endif %}
+{% from 'macros/macros.html' import render_field, render_field, loading %}
+<div id="form" class="rel">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <fieldset class="notice">
+            <legend>Contact Us</legend>
+                {{ render_field(form.name,'Name', placeholder="Your name") }}
+                {{ render_field(form.email,'Email', placeholder="email@example.org") }}
+                {{ render_field(form.subject,'Subject', placeholder="Subject") }}
+                {{ render_field(form.message,'Message', placeholder="Your message") }}
+                <div class="cf-turnstile" data-appearance="execute" data-theme="{{session.get('theme')}}" data-sitekey="{{SITE_KEY}}"></div>
+        </fieldset>
+        <button hx-indicator="#spinner" hx-swap="outerHTML" hx-post="{{ url_for('main.contact_us') }}" hx-target="#form" class="gbf p-10" id="submit" type="submit" name="submit">
+            Submit
+            {{ loading("spinner") }}
+        </button>
+    </form>
+</div>

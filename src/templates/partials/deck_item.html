@@ -1,0 +1,25 @@
+<div id="deck-{{deck.id}}" class="grid-item pr">
+        <div class="flex-end top-right">
+                <div class="edit hover-scale"
+                     hx-get="{{ url_for('posts.single_deck', deck_id=deck.id) }}"
+                     hx-target="#deck-{{deck.id}}"
+                     hx-swap="outerHTML"
+                >
+                </div>
+                <div class="remove hover-scale"
+                     hx-delete="{{ url_for('posts.single_deck', deck_id=deck.id) }}"
+                     hx-vals='{"csrf_token": "{{csrf_token()}}"}'
+                     hx-target="#deck-{{deck.id}}"
+                     hx-confirm="Are you sure you wish to delete this deck?"
+                     hx-swap="outerHTML swap:0.4s"
+                >
+                </div>
+        </div>
+        <a class="no-style" href="{{ url_for('posts.table',deck_id=deck.id, deck_name=deck.formatted_deck_name()) }}">
+            <h3>{{ deck.truncate_deck_name() }}</h3>
+        </a>
+        <button class="button gray-button">{{ deck.category }}</button>
+        <small>
+            <p class="badge">{{ deck.creation_date | format_date }}</p>
+        </small>
+</div>

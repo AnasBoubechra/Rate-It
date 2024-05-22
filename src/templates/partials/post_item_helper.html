@@ -1,0 +1,18 @@
+<tr id="row-{{ post.id }}">
+  <td><a href="{{ post.url }}">{{ post.title }}</a></td>
+  <td>
+      <div class="flex-end">
+      {{ post.description }}
+          <div class="flex-end is-left">
+              {% if deck.user_id == current_user.id %}
+              <div id="btn-{{post.id}}" class="options hover-scale"
+                   hx-get="{{ url_for('posts.edit_post',deck_id=deck.id, post_id=post.id, s='options') }}"
+                   hx-target="this"
+                   hx-swap="afterend"
+              ></div>
+              {% endif %}
+          </div>
+       </div>
+  </td>
+</tr>
+<tr id="last_node_{{post.field}}"></tr>

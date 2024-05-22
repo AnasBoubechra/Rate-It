@@ -1,0 +1,21 @@
+{% from 'macros/macros.html' import share, report %}
+<div hx-ext="remove-me" remove-me="2s" class="pr">
+    <div class="dropdown-content t-options pa">
+        <div class="dropdown-item"
+            hx-get="{{url_for('posts.table', deck_id=deck.id, deck_name=deck.formatted_deck_name(), s='share')}}"
+            hx-target="#form"
+            hx-swap="innerHTML"
+            >
+            {{ share("m-8") }}
+            <span>Share</span>
+        </div>
+        <div class="dropdown-item"
+            hx-get="{{ url_for('posts.report', deck_id=deck.id) }}"
+            hx-target="#form"
+            hx-swap="innerHTML"
+            >
+            {{ report("m-8") }}
+            <span>Report</span>
+        </div>
+    </div>
+</div>

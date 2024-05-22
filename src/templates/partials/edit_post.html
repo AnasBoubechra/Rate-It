@@ -1,0 +1,52 @@
+<div class="grid-item float pf rel" id="edit-{{post.id}}">
+  <form hx-put="{{ url_for('posts.edit_post',deck_id=deck.id, post_id=post.id, save=True) }}" hx-target="#row-{{post.id}}">
+        {{ form.csrf_token }}
+        {{ form.title(value=post.title) }}
+        {% if form.title.errors %}
+            <div class="form-error">
+                {% for error in form.title.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <textarea id="description" maxlength="{{POST_DESCRIPTION_LEN_MAX}}" name="description" required>{{ post.description }}</textarea>
+        {% if form.description.errors %}
+            <div id="form-errors" class="form-error">
+                {% for error in form.description.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <input 
+          id="url" maxlength="500" name="url" required="" type="text" value="{{post.url}}"
+          hx-trigger="keyup changed delay:600ms"
+          hx-indicator="#spinner"
+          hx-target="#url-status"
+          hx-post="{{ url_for('posts.check_url') }}"
+        >
+        <div id="url-status"></div>
+        <img  height="25px" width="25px" id="spinner" class="spinner" src="{{ url_for('static', filename='img/loading.svg') }}"/>
+        {% if form.url.errors %}
+            <div class="form-error">
+                {% for error in form.url.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="block m-8">
+          <select id="{{ form.field.id }}" name="{{ form.field.name }}" placeholder="{{ form.field.placeholder }}">
+              {% for option_value, option_label in form.field.choices %}
+              <option value="{{ option_value }}" {% if option_value == post.field %}selected{% endif %}>{{ option_label }}</option>
+              {% endfor %}
+          </select>
+        </div>
+
+        {{ form.submit(value="Save") }}
+        <div class="button gray-button gbf"
+        hx-put="{{ url_for('posts.edit_post',deck_id=deck.id, post_id=post.id, save=False) }}"
+        hx-target="#row-{{post.id}}"
+        >
+        cancel
+        </div>
+    </form>
+</div>

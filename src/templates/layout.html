@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% from "./macros/macros.html" import moon, sun %}
+<html lang="en" class="{{ 'dark-mode' if session.get('theme') == 'dark'}}">
+<head>
+    <title>{{ title }} | Rate it</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index,follow">
+    <meta name="description" content="{{ description }}">
+    <meta name="keywords" content="{{ keywords }}">
+    <meta property="og:type" content= "website" />
+    <meta property="og:url" content="{{ request.scheme }}://{{ request.host }}{{ request.path }}">
+    <meta property="og:site_name" content="{{ title }}" />
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:image" content="{{ url_for('static', filename='img/_og.jpg') }}">
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:title" property="og:title" itemprop="name" content="{{ title }}"/>
+    <meta name="twitter:domain" content="{{ request.scheme }}://{{ request.host }}{{ request.path }}"/>
+    <meta name="twitter:description" property="og:description" itemprop="description" content="{{ description }}">
+    <link rel="canonical" href="{{ request.scheme }}://{{ request.host }}{{ request.path }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_min.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+</head>
+  <body>
+    <header>
+      <nav>
+        <a href="{{ url_for('main.toggle_theme') }}" class="nav__link">
+            <span class="nav__item">
+                {% if session.get('theme') == "dark" %}
+                    {{ sun("nav__icon") }}
+                {% else %}
+                    {{ moon("nav__icon") }}
+                {% endif %}
+            </span>
+        </a>
+        <a href="{{ url_for('main.home') }}">Home</a>
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('posts.decks') }}">My decks</a>
+        <a id="user" href="{{ url_for('users.account') }}">
+	      <img crossorigin="anonymous" height="24" width="24" loading="lazy" src="{{ current_user.gravatar(size=24) }}">
+          <span>{{ current_user.username }}</span>
+        </a>
+        <a href="{{ url_for('users.logout') }}">Logout</a>
+        {% else %}
+        <a href="{{ url_for('users.login') }}">Login</a>
+        <a href="{{ url_for('users.signup') }}">Signup</a>
+        {% endif %}
+      </nav>
+      {% block h1 %}{% endblock %}
+    </header>
+    <main>
+      {% block toc %}{% endblock %}
+      {% include "partials/flash.html" %}
+      <div id="htmx-flashed"></div>
+      {% block content %}{% endblock %}
+      <script nonce="random-csp-nonce" integrity="sha384-Hv9jfo+l0rygxyw/ETv4LDjxpzbla9THyfsaLw/h8Yt3SmZ9J1R/G6cIiXBnBU2e" src="{{ url_for('static', filename='js/htmx.js') }}"></script>
+      <script nonce="random-csp-nonce" integrity="sha384-uvhGEC6b2nl9cr10jOonJSIQKMzvfFdX5+JvVUknBCmpJK0u7UpPkxh3T3HMDDNR" src="{{ url_for('static', filename='js/htmx-remove-me.js') }}"></script>
+      {% block scripts %}{% endblock %}
+    </main>
+    <footer>
+      <p>created by <a href="https://cschad.com">Cschad</a> and is licensed under the MIT license.<br>
+      <a href="{{ url_for("main.contact_us")}}">Contact Us</a>
+    </footer>
+  </body>
+</html>

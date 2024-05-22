@@ -1,0 +1,25 @@
+<!-- {% if deck.public %} -->
+<!-- <td> -->
+<!--     <div class="vote-container" id="vote-container-{{ post.id }}"> -->
+<!--         <div class="count hover-scale" hx-target="#row-id-{{ post.id }}" hx-swap="innerHTML" hx-put="{{ url_for('posts.vote', post_id=post.id, vote_type=1) }}">▲</div> -->
+<!--             <span class="count" id="row-id-{{ post.id }}">{{ post.votes }}</span> -->
+<!--         <div class="count hover-scale" hx-target="#row-id-{{ post.id }}" hx-swap="innerHTML" hx-put="{{ url_for('posts.vote', post_id=post.id, vote_type=0) }}">▼</div> -->
+<!--     </div> -->
+<!-- </td> -->
+<!-- {% endif %} -->
+
+<td><a href="{{ post.url }}">{{ post.title }}</a></td>
+<td>
+    <div class="flex-end">
+    {{ post.description }}
+        <div class="flex-end is-left">
+            {% if post.user_id == current_user.id %}
+            <div id="btn-{{post.id}}" class="options"
+                 hx-get="{{ url_for('posts.edit_post',deck_id=deck.id, post_id=post.id, s='post-options') }}"
+                 hx-target="this"
+                 hx-swap="afterend"
+            >..</div>
+            {% endif %}
+        </div>
+     </div>
+</td>

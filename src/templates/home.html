@@ -1,0 +1,48 @@
+{% from 'macros/macros.html' import render_field, render_decks, render_pagination %}
+{% if filter_by %}
+{% set title = filter_by %}
+{% set description = "{{ filter_by }}: Discover curated {{ category }} decks filled with valuable resources for your journey." %}
+{% set keywords = "{{ filter_by}}" %}
+{% else %}
+{% set title = "Pubic decks" %}
+{% set description = "Public Decks: Embark on an Exciting Journey through a Curated Collection of Intriguing and Essential Resources." %}
+{% set keywords = "Public decks" %}
+{% endif %}
+{% extends "layout.html" %}
+{% block h1 %}
+{% if filter_by %}
+<h1>{{ filter_by }}</h1>
+{% else %}
+<h1>Rate it!</h1>
+{% endif %}
+<div class="centered-content">
+    <form method="POST" action="/search">
+        <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+        <input id="q" maxlength="100" minlength="2" name="q" placeholder="Search" required="" type="text" value="">
+        <input type="hidden" name="select" id="select" value="deck_name">
+        <input id="submit" name="submit" type="submit" value="Search">
+    </form>
+</div>
+{% endblock h1 %}
+{% block toc %}
+<details class="toc side left">
+    <summary>Filter by</summary>
+    <div class="inner">
+        <ul>
+            {% for key,value in CHOICES.items() %}
+            <li><a href="{{ url_for('main.filter_by', by=key) }}">{{ value }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</details>
+{% endblock %}
+{% block content %}
+{{ render_decks(deck) }}
+{% if deck.total is defined and deck.total - 1 >= PER_PAGE_DECK %}
+{% if filter_by %}
+{{ render_pagination(deck, 'main.filter_by', args={'by':filter_by}) }}
+{% else %}
+{{ render_pagination(deck, 'main.home') }}
+{% endif %}
+{% endif %}
+{% endblock content %}

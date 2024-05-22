@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block h1 %}
+<h1>Bad request (400)</h1>
+{% endblock h1 %}
+{% block content %}
+<p>{{ error.description }}</p>
+{% endblock content %}
