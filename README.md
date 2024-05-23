@@ -1,17 +1,3 @@
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Features](#features)
-- [Installation](#installation)
-  - [Set Environment Variables](#set-environment-variables)
-  - [Add an Admin/User & Initialize the database](#add-an-adminuser--initialize-the-database)
-  - [Start the application](#start-the-application)
-- [Modules](#modules)
-- [Routes](#routes)
-- [Screenshots](#screenshots)
-- [Author](#author)
-- [Support](#support)
-
 ## Introduction
 
 **Rate-It** is a *link aggregation* platform centered around the concept of "decks".
@@ -29,6 +15,7 @@ and shared on the platform's homepage, while private decks are accessible only
 to the creator.
 
 Here is an example:
+
 ![Example](https://git.cschad.com/rate-it/raw/screenshots/example.webp)
 
 ---
@@ -37,17 +24,17 @@ Here is an example:
 
 App follows the application factory structure. Which allows you:
 
-* To test. You can have instances of the application with different settings to test every case.
-* To deploy multiple instances. Imagine you want to run different versions of the same
+* [x] To test. You can have instances of the application with different settings to test every case.
+* [x] To deploy multiple instances. Imagine you want to run different versions of the same
   application. Of course you could have multiple instances with different
   configs set up in your webserver, but if you use factories, you can have
   multiple instances of the same application running in the same application
   process which can be handy.
 
-* Sends you an email (in production mode) for 5XX HTTP errors with the actual error.
-* Easy to refactor and use the project as a boilertemplate for other projects
-* Solid security defaults for cookies / XSS etc (see the config.py)
-* Minimal **CSS** / **Js** Uses HTMX only which is about 15kb (compressed)
+* [x] Sends you an email (in production mode) for 5XX HTTP errors with the actual error.
+* [x] Easy to refactor and use the project as a boilertemplate for other projects
+* [x] Solid security defaults for cookies / XSS etc (see the config.py)
+* [x] Minimal **CSS** / **Js** Uses HTMX only which is about 15kb (compressed)
 
 Note: The app itself doesn't compress responses & Doesn't modify the request headers. This is something
 you have to do in the server itself! (Setting CSP headers is important against XSS)
@@ -115,7 +102,7 @@ This application uses the following modules:
 * Flask-Admin
 * Flask-Htmx
 * email_validator
-* requests (Only for the /url-check route in posts/routes.py)
+* requests (Only for the /check-url route in posts/routes.py)
 
 ## Routes
 **Note:** All routes of Flask-Admin have been stripped away!
