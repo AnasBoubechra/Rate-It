@@ -1,20 +1,20 @@
 ## Introduction
 
-**Rate-It** is a *link aggregation* platform centered around the concept of "decks".
-Each deck is a collection of related posts, where each post contains a title,
-URL, and description.
+**Rate-It** is a *link aggregation* platform centered around the concept of `decks`.
+Each deck is a collection of related posts, where each post contains a *title*,
+*URL*, and *description*.
 
 Posts within a deck can be organized into fields. For example, a "Python
 Learning" deck might have fields like "Python Syntax", "Practice", "MOOC", and
 "OOP", each containing relevant post entries.
 
-The posts within each field are displayed in a tabular format.
+* The posts within each field are displayed in a tabular format.
 
-Decks can be set as either public or private. Public decks can be discovered
+Decks can be set as either **public** or **private**. Public decks can be discovered
 and shared on the platform's homepage, while private decks are accessible only
 to the creator.
 
-Here is an example:
+* Here is an example:
 
 ![Example](https://git.cschad.com/rate-it/raw/screenshots/example.webp)
 
@@ -22,22 +22,14 @@ Here is an example:
 
 ## Features
 
-App follows the application factory structure. Which allows you:
+* [x] **Testing:** You can test various scenarios by configuring different instances of the application.
+* [x] **Deployment:** Easily deploy multiple instances of the same application for different versions or settings.
+* [x] **Error Handling:** In production mode, receive email notifications for 5XX HTTP errors along with the error details.
+* [x] **Refactoring:** Simple to refactor and utilize the project as a boilerplate for new projects.
+* [x] **Security:** Solid security defaults for cookies, XSS, etc. Refer to `config.py` for details.
+* [x] **Minimal Resources:** Uses minimal CSS and JS, relying only on HTMX (about 15kb compressed).
 
-* [x] To test. You can have instances of the application with different settings to test every case.
-* [x] To deploy multiple instances. Imagine you want to run different versions of the same
-  application. Of course you could have multiple instances with different
-  configs set up in your webserver, but if you use factories, you can have
-  multiple instances of the same application running in the same application
-  process which can be handy.
-
-* [x] Sends you an email (in production mode) for 5XX HTTP errors with the actual error.
-* [x] Easy to refactor and use the project as a boilertemplate for other projects
-* [x] Solid security defaults for cookies / XSS etc (see the config.py)
-* [x] Minimal **CSS** / **Js** Uses HTMX only which is about 15kb (compressed)
-
-Note: The app itself doesn't compress responses & Doesn't modify the request headers. This is something
-you have to do in the server itself! (Setting CSP headers is important against XSS)
+*Note:* The application itself does not compress responses or modify request headers. These tasks should be handled by the server, and setting CSP headers is crucial for XSS protection.
 
 ## Installation
 
@@ -76,8 +68,9 @@ export MAIL_DEFAULT_SENDER='"Rate it" <rateit@cschad.com>'
 ### Add an Admin/User & Initialize the database
 
 The database instance will be created under **./instances/db/*.db**
-By default the app will run in development mode!
-so a **/db/development.db** will be created.
+By default the app will run in development mode! (You can make changes by setting the `config_name` in **run.py** to `production`)
+
+So a **/db/development.db** file will be created.
 
 ```py
 python manage.py
@@ -165,5 +158,4 @@ users.user_gravatar         PUT               /user/gravatar
 [CsChad](https://cschad.com)
 
 ## Support
-
 [Donation page](https://cschad.com/donate/)
